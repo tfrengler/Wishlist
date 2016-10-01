@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta author="Thomas Frengler" />
+
+		<title>Wishlist</title>
+
+		<link rel="stylesheet" type="text/css" href="./Media/global.css" />
+		<link rel="stylesheet" type="text/css" href="Media/jquery-ui-1.11.4/jquery-ui.css" />
+		<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+
+		<script type="text/javascript">
+			var Master = {};
+
+			Master.Controllers = {};
+			Master.Views = {};
+			Master.State = {};
+			Master.Constructors = {};
+			Master.Lib = {};
+
+			window.onload = function() {
+				Master.Constructors.Controllers.Init();
+				Master.Constructors.Views.Init();
+				Master.Constructors.Models.Init();
+
+				console.log("JS initialized");
+			};
+		</script>
+
+		<script type="text/javascript" src="Controllers.js" ></script>
+		<script type="text/javascript" src="Views.js" ></script>
+		<script type="text/javascript" src="Models.js" ></script>
+		<script type="text/javascript" src="Lib.js"></script>
+
+		<script type="text/javascript" src="Media/jquery-2.2.4.min.js" ></script>
+		<script type="text/javascript" src="Media/jquery-ui-1.11.4/jquery-ui.min.js" ></script>
+	</head>
+<body>
+
+	<div id="HeaderContainer">
+		<div id="AddButton" class="Buttons" >
+			<p>ADD WISH</p>
+		</div>
+		<div id="SaveButton" class="Buttons" >
+			<p>SAVE CHANGES</p>
+		</div>
+		<div id="ToggleEdit" class="Buttons" >
+			<p>ENABLE EDITING</p>
+		</div>
+
+		<div id="MenuButton" class="Buttons" >
+			<p>HIDE MAIN MENU</p>
+		</div>
+
+		<div id="Header">
+			<div>WISHLIST</div>
+			<div id="WishlistPerson"></div>
+		</div>
+	</div>
+
+	<div id="LeftSection">
+		<div id="Menu">
+			<p>
+				</p>
+					<div>
+						<u>WISHLISTS:</u>
+					</div>
+					<br>
+					<span>
+						<a href="#" id="WishlistThomas" >THOMAS</a>
+					</span>
+					<br>
+					<span>
+						<a href="#" id="WishlistCarlette" >CARLETTE</a>
+					</span>
+					<br>
+				<p>
+			</p>
+
+			<p>
+				PASSWORD:<br>
+				<input type="password" id="Login" value=""><br>
+				<input type="button" id="SubmitLogin" value="LOGIN">
+			</p>
+		</div>
+	</div>
+	
+	<div id="CenterSection">
+
+	</div>
+
+	<div id="RightSection">
+		<div id="Help">
+			<p>
+				</p><div><u>HELP SECTION</u></div>
+				<p id="expandedHelp">
+				To add or edit wishes you need to log in (via the menu).<br><br>
+				If you're not logged in you can only view the wishlists.<br><br>
+				After logging in, and you've opened your list, you'll have three <br>
+				buttons in the <b>upper right corner.</b><br><br>
+				To change the content of a wish you need to first click on <br>
+				<b>Enable editing</b> in the upper right corner.<br><br>
+				<b>IMPORTANT:</b> Don't forget to click the <b>Save</b>-button when you're<br>
+				done! Otherwise your changes won't actually be saved.<br>
+				</p>
+				<span id="HelpExpandLink" ><a href="#">Click to expand</a></span>
+			<p></p>
+		</div>
+	</div>
+
+	<div id="FooterSection">
+		<div id="Footer">
+			Created by Thomas Frengler / 2016.<br>
+			Does NOT work in Internet Explorer.<br/>
+			NOT optimized for iPads, tablets or smartphones.
+		</div>
+	</div>
+
+	<div id="WishEditDialog" ></div>
+</body>
+</html>
