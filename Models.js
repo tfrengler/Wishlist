@@ -702,8 +702,11 @@ Master.Constructors.Models = {
 				PostData = encodeURIComponent(PostData);
 			};
 
-			if (HTTPMethod == "GET" && PostData.length < 0) {
-				RequestFile += "?PostData=" + PostData + "&Uncache=" + Uncache;
+			if (HTTPMethod == "GET") {
+				RequestFile += "?Uncache=" + Uncache;
+				if (PostData.length > 0) {
+					RequestFile += "&PostData=" + PostData;
+				}
 			};
 
 			HTTPRequest.open(HTTPMethod, RequestFile, false);
