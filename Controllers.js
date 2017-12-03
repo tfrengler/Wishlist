@@ -51,10 +51,10 @@ Master.Constructors.Controllers = {
 			PostData.Data = BackendWish["Get" + Section]();
 
 			var BackendRequest = new Master.Constructors.Models.BackendRequest();
-			var BackendRequestReturn = BackendRequest.Load("EditWishDataTemplate.php", PostData, "application/x-www-form-urlencoded");
+			var BackendRequestReturn = BackendRequest.Load("EditWishDataTemplate.cfm", PostData, "application/x-www-form-urlencoded");
 
 			if (BackendRequestReturn.Status == "NOK") {
-				console.log("OnOpenEdit() calling EditWishDataTemplate.php via BackendRequest() has failed apparently!");
+				console.log("OnOpenEdit() calling EditWishDataTemplate.cfm via BackendRequest() has failed apparently!");
 				return false;
 			};
 
@@ -180,7 +180,7 @@ Master.Constructors.Controllers = {
 			var TemplatePostData = WishModel.Data;
 
 			var BackendRequest = new Master.Constructors.Models.BackendRequest();
-			var BackendRequestReturn = BackendRequest.Load("WishTemplate.php", TemplatePostData, "application/x-www-form-urlencoded");
+			var BackendRequestReturn = BackendRequest.Load("WishTemplate.cfm", TemplatePostData, "application/x-www-form-urlencoded");
 
 			if (BackendRequestReturn.Status == "NOK" || BackendRequestReturn.Data.ResponseText == "NOK") {
 				var Exception = new Master.Constructors.Models.ErrorHandler();
@@ -440,17 +440,17 @@ Master.Constructors.Controllers = {
 
 			var PostData = {};
 			var BackendReturnData = {};
-			var Wishes = Master.State.Wishes.GetListOfWishes().Data;
+			var Wishlist = Master.State.Wishes.GetListOfWishes().Data;
 			var WishlistOwner = Master.State.Wishes.GetWhoWishesBelongTo();
 
 			PostData.WishOwner = WishlistOwner;
-			PostData.Wishlist = Wishes;
+			PostData.Wishlist = Wishlist;
 
 			var BackendRequest = new Master.Constructors.Models.BackendRequest();
-			var BackendRequestReturn = BackendRequest.Load("SaveToDisk.php", PostData, "application/x-www-form-urlencoded");
+			var BackendRequestReturn = BackendRequest.Load("SaveToDisk.cfm", PostData, "application/x-www-form-urlencoded");
 
 			if (BackendRequestReturn.Status == "NOK") {
-				console.log("OnSaveToDisk() calling SaveToDisk.php via BackendRequest() has failed apparently!");
+				console.log("OnSaveToDisk() calling SaveToDisk.cfm via BackendRequest() has failed apparently!");
 				console.log(BackendRequest.Errors);
 				window.alert("Oh noes! Something went wrong :(");
 				return false;

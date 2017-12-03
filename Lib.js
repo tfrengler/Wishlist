@@ -178,5 +178,9 @@ Master.Lib = {
 	nl2br: function(StringData, WithTrailingSlash) {
 		var BreakTag = (WithTrailingSlash || typeof WithTrailingSlash === 'undefined') ? '<br />' : '<br>';
 		return (StringData + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + BreakTag + '$2');
+	},
+
+	onPictureNotLoaded: function(IMGElement) {
+		IMGElement.src = "Media/ImageNotFound.jpeg";
 	}
 };

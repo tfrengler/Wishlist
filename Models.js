@@ -37,12 +37,12 @@ Master.Constructors.Models = {
 				Errors: []
 			};
 			var RequestData = {
-				Action: "Verify",
-				Parameter: this.GetAuthenticationKey().Data
+				method: "VerifyAuthKey",
+				clientAuthKey: this.GetAuthenticationKey().Data
 			};
 
 			var Request = new Master.Constructors.Models.BackendRequest();
-			var BackendReturn = Request.Load("Authenticate.php", RequestData, "application/x-www-form-urlencoded");
+			var BackendReturn = Request.Load("Authenticate.cfc", RequestData, "application/x-www-form-urlencoded");
 
 			if (BackendReturn.Status == "OK") {
 				ReturnData.Data = BackendReturn.Data;
@@ -75,21 +75,21 @@ Master.Constructors.Models = {
 
 			var HashedLoginCode = Master.Lib.HashString(LoginCode);
 			var PostData = {
-				Action: "Login",
-				Parameter: HashedLoginCode
+				method: "Login",
+				password: HashedLoginCode
 			};
 			var SetAuthenticationKeyReturn = "";
 			var BackendReturnData = {};
 			var AuthKey = "";
 			
 			var Request = new Master.Constructors.Models.BackendRequest();
-			var BackendReturn = Request.Load("Authenticate.php", PostData, "application/x-www-form-urlencoded");
+			var BackendReturn = Request.Load("Authenticate.cfc", PostData, "application/x-www-form-urlencoded");
 
 			if (BackendReturn.Status == "OK") {
 				BackendReturnData = JSON.parse(BackendReturn.Data.Response);
 				
 				if (BackendReturnData.Status == "OK") {
-					AuthKey = BackendReturnData.Message;
+					AuthKey = BackendReturnData.Data;
 					SetAuthenticationKeyReturn = this.SetAuthenticationKey(AuthKey);
 
 					if (SetAuthenticationKeyReturn.Status = "OK") {
@@ -101,7 +101,7 @@ Master.Constructors.Models = {
 				}
 				else if (BackendReturnData.Status == "NOK")  {
 					ReturnData.Status = "OK";
-					ReturnData.Data = BackendReturnData.Message;
+					ReturnData.Data = BackendReturnData.Data;
 				};	
 			}
 			else if (BackendReturn.Status == "NOK") {
@@ -690,22 +690,43 @@ Master.Constructors.Models = {
 			var Uncache = Date.now();
 			var HTTPRequest = new XMLHttpRequest();
 			var PostData = "";
+			var Key = "";
+			var RequestData = "";
 			var HTTPRequestError = "";
 			var HTTPMethod = "POST";
+			var i = 0;
+			var ArrayPostDataEntry = "";
 
 			if (UseGET) {
 				HTTPMethod = "GET";
 			};
 
 			if (Data) {
-				PostData = JSON.stringify(Data);
-				PostData = encodeURIComponent(PostData);
+				for (Key in Data) {
+					if (typeof Data[Key] === "function") {
+						continue;
+					}
+					else if (Data[Key] instanceof Array) {
+
+						ArrayPostDataEntry = "&" + Key + "=";
+						for (i = 0; i < Data[Key].length; i++) {
+							ArrayPostDataEntry += encodeURIComponent(Data[Key][i]) + ",";
+						}
+						PostData += ArrayPostDataEntry;
+
+					} else if (Data[Key] instanceof Object) {
+						PostData += ("&" + Key + "=" + encodeURIComponent( JSON.stringify(Data[Key])) );
+					} else {
+						PostData += ("&" + Key + "=" + encodeURIComponent(Data[Key]));
+					}
+				}
 			};
 
+			// Construct the URL string that needs to be appended to the file request via GET
 			if (HTTPMethod == "GET") {
 				RequestFile += "?Uncache=" + Uncache;
 				if (PostData.length > 0) {
-					RequestFile += "&PostData=" + PostData;
+					RequestFile += PostData;
 				}
 			};
 
@@ -717,7 +738,8 @@ Master.Constructors.Models = {
 
 			try {
 				if (HTTPMethod == "POST") {
-					HTTPRequest.send("RequestData="+PostData+"&Uncache="+Uncache);	
+					RequestData = "Uncache=" + Uncache + PostData;
+					HTTPRequest.send(RequestData);	
 				}
 				else {
 					HTTPRequest.send();
