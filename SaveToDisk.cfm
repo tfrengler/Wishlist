@@ -13,7 +13,6 @@
 	<envelope>
 
 		<cfloop collection="#wishes#" item="wishIndex" >
-
 			<cfset currentWish = wishes[wishIndex] />
 
 			<Wish>
@@ -23,14 +22,13 @@
 
 				<cfif arrayLen(currentWish.Links) IS 0 >
 					<Links/>
-				</cfif>
-				<Links>
-
+				<cfelse>
+					<Links>
 					<cfloop array="#currentWish.Links#" index="link" >
 						<Link><![CDATA[#link#]]></Link>
 					</cfloop>
-
-				</Links>
+					</Links>
+				</cfif>
 			</Wish>
 
 		</cfloop>
