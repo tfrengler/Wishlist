@@ -487,15 +487,27 @@ Master.Constructors.Models = {
 					var LinksNode = XMLData.getElementsByTagName("Links");
 
 					if (typeof PictureNode != "undefined") {
-						Picture = PictureNode[0].childNodes[0].nodeValue;
+						if (PictureNode[0].childNodes[0] === undefined) {
+							Picture = "";
+						} else {
+							Picture = PictureNode[0].childNodes[0].nodeValue;
+						}
 					};
 
 					if (typeof DescriptionNode != "undefined") {
-						Description = DescriptionNode[0].childNodes[0].nodeValue;
+						if (DescriptionNode[0].childNodes[0] === undefined) {
+							Description = "<i>no description</i>";
+						} else {
+							Description = DescriptionNode[0].childNodes[0].nodeValue;
+						}
 					};
 
 					if (typeof SortOrderNode != "undefined") {
-						SortOrder = parseInt(SortOrderNode[0].childNodes[0].nodeValue);
+						if (SortOrderNode[0].childNodes[0] === undefined) {
+							SortOrder = 0;
+						} else {
+							SortOrder = parseInt(SortOrderNode[0].childNodes[0].nodeValue);
+						}
 					};
 				
 					if (typeof LinksNode[0] != "undefined") {
